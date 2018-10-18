@@ -16,7 +16,10 @@ def value_iteration(goal,V,pi,ph):
 
         for state in range(1,goal): #loop for each s in States
             v = V[state]
-            Evalue = [ph * V[state + action] + (1-ph) * V[state - action] for action in range(1,min(state, 100 - state) + 1)]
+            Evalue = []
+            for action in range(1,min(state, 100 - state) + 1):
+
+                Evalue.append(ph * V[state + action] + (1-ph) * V[state - action] )
             V[state] = np.max(Evalue)
             pi[state] = np.argmax(Evalue)+1
             delta = max(delta, abs(v - V[state]))
@@ -61,10 +64,16 @@ def main():
     values = np.zeros(goal+1)
     values[100] = 1
     policy = np.zeros(goal+1)
-    ph = 0.25
-    graph(1,ph)
-    value_iteration(goal, values, policy, ph)
+    ph = [0.25,0.55]
+    graph(1,ph[0])
+    value_iteration(goal, values, policy, ph[0])
 
+    goal = 100
+    values = np.zeros(goal+1)
+    values[100] = 1
+    policy = np.zeros(goal+1)
+    graph(2,ph[1])
+    value_iteration(goal, values, policy, ph[1])
 
 
 if __name__ == '__main__':
