@@ -48,18 +48,22 @@ class WindygridEnvironment(BaseEnvironment):
         Hint: Take a step in the environment based on dynamics; also checking for action validity in
         state may help handle any rogue agents.
         """
-        row = self.state[0] + action[0]
-        col = self.state[1] + action[1]
-        if row<0:
-            row = 0
-        if row>self.width-1:
-            row = self.width-1
-        if col<0:
-            col=0
-        if col>self.height-1:
-            col= self.height -1
-        self.state[0] = row
-        self.state[1] = col
+        x = self.state[0] + action[0]
+        y = self.state[1] + action[1]
+        if x<0:
+            x = 0
+        if x>self.width-1:
+            x = self.width-1
+        if y<0:
+            y=0
+        if y>self.height-1:
+            y= self.height -1
+        
+        y -= self.wind_strength[x]
+        if y<0:
+            y=0           
+            
+        self.state = np.array((x,y))
         reward = -1.0
         terminal = False
         if np.array_equal(self.state,self.goal):

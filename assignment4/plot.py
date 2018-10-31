@@ -8,7 +8,9 @@ import matplotlib.pyplot as plt
 
 if __name__ == "__main__":
    for action in [8,9]:
-      output = np.load('steps_{}.npy'.format(action))
+      output = np.load('action_{}.npy'.format(action))
+      print(output.shape)
+      print(output)
       plt.plot(output,np.arange(170),label="{} actions".format(action))
    plt.yticks([0,50,100,150,170])
    plt.xticks([0,1000,2000,3000,4000,5000,6000,7000,8000])

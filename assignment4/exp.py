@@ -21,7 +21,7 @@ if __name__ == "__main__":
     for action in [8,9]:
         output = np.zeros((num_runs,num_episodes))
 
-        rlglue.rl_agent_message("change_action : {}".format(action))
+        rlglue.rl_agent_message("differ_action : {}".format(action))
 
         for run in range(num_runs):
 
@@ -44,4 +44,4 @@ if __name__ == "__main__":
         average_over_runs = np.mean(output, axis=0)
 
         # save average value function numpy object, to be used by plotting script
-        np.save("steps_{}".format(action), average_over_runs)
+        np.save("action_{}".format(action), average_over_runs)

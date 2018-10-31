@@ -73,7 +73,7 @@ class SarsaAgent(BaseAgent):
         Returns: The value function as a list.
         This function is complete. You do not need to add code here.
         """
-        if in_message == 'change_action':
+        if in_message.startswith('differ_action'):
             self.num_action = int(in_message.split(":")[1])
         else:
             return "I dont know how to respond to this message!!"
