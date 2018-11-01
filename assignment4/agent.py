@@ -15,7 +15,7 @@ class SarsaAgent(BaseAgent):
         self.alpha = 0.5
         self.epsilon = 0.1
         self.actions = [(0,1),(0,-1),(1,0),(-1,0),(1,1),(1,-1),(-1,1),(-1,-1),(0,0)]
-        self.num_action = 8
+        self.num_action = 9
 
     def agent_init(self):
         """
@@ -34,7 +34,7 @@ class SarsaAgent(BaseAgent):
         a new episode, pick the first action, don't forget about exploring
         starts
         """
-        if np.random.random() > self.epsilon:
+        if np.random.uniform(0,1) > self.epsilon:
             self.current_action = np.argmax(self.Q[state[0],state[1]])
         else:
             self.current_action = np.random.randint(0,self.num_action)
@@ -48,7 +48,7 @@ class SarsaAgent(BaseAgent):
         Returns: action - integer
         Hint: select an action based on pi
         """
-        if np.random.random() > self.epsilon:
+        if np.random.uniform(0,1) > self.epsilon:
             self.current_action = np.argmax(self.Q[state[0],state[1]])
         else:
             self.current_action = np.random.randint(0,self.num_action)
@@ -65,7 +65,7 @@ class SarsaAgent(BaseAgent):
         Returns: Nothing
         Hint: do necessary steps for policy evaluation and improvement
         """
-        self.Q[self.last_state[0],self.last_state[1],self.last_action] += self.alpha*(reward - self.Q[self.last_state[0],self.last_state[1],self.last_action])
+        pass
 
     def agent_message(self, in_message):
         """
@@ -73,7 +73,4 @@ class SarsaAgent(BaseAgent):
         Returns: The value function as a list.
         This function is complete. You do not need to add code here.
         """
-        if in_message.startswith('differ_action'):
-            self.num_action = int(in_message.split(":")[1])
-        else:
-            return "I dont know how to respond to this message!!"
+        pass

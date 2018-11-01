@@ -7,41 +7,32 @@ from rl_glue import RLGlue
 from env import WindygridEnvironment
 from agent import SarsaAgent
 import numpy as np
+import matplotlib.pyplot as plt
 
 if __name__ == "__main__":
-    num_episodes = 170
-    max_steps = 10000
-    num_runs = 10
+    max_steps = 8000
+    num_runs = 1
 
     # Create and pass agent and environment objects to RLGlue
     environment = WindygridEnvironment()
     agent = SarsaAgent()
     rlglue = RLGlue(environment, agent)
     del agent, environment  # don't use these anymore
-    for action in [8,9]:
-        output = np.zeros((num_runs,num_episodes))
+    for run in range(num_runs):
+        episode=[]
+        time_step=[]
+        rlglue.rl_init()
+        while True:
+            rlglue.rl_episode()
+            time_step.append(rlglue.num_steps())
+            episode.append(rlglue.num_episodes())
+            if rlglue.num_steps() > 8000:
+                break
 
-        rlglue.rl_agent_message("differ_action : {}".format(action))
-
-        for run in range(num_runs):
-
-            print("run number: {}\n".format(run))
-            # set seed for reproducibility
-            np.random.seed(run)
-
-            # initialize RL-Glue
-            rlglue.rl_init()
-
-
-
-            # loop over episodes
-            for episode in range(num_episodes):
-                # run episode with the allocated steps budget
-                rlglue.rl_episode(max_steps)
-
-                output[run,episode] = rlglue.num_steps()
-
-        average_over_runs = np.mean(output, axis=0)
-
+    plt.plot(time_step,episode,label="8 actions")
+    plt.xticks([0, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000])
+    plt.xlabel('Time steps')
+    plt.ylabel('Episode', rotation=90)
+    plt.legend(loc=2)
+    plt.show()
         # save average value function numpy object, to be used by plotting script
-        np.save("action_{}".format(action), average_over_runs)

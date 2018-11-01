@@ -20,9 +20,10 @@ class WindygridEnvironment(BaseEnvironment):
         """Declare environment variables."""
         self.width = 10
         self.height = 7
-        self.wind_strength = [0,0,0,1,1,1,2,2,1,0]
-        self.start = [0,3]
-        self.goal = [7,3]
+        self.wind_strength = None
+        self.start = None
+        self.goal = None
+        self.current_state = None
 
     def env_init(self):
         """
@@ -30,7 +31,10 @@ class WindygridEnvironment(BaseEnvironment):
         Returns: Nothing
         Hint: Initialize environment variables necessary for run.
         """
-        self.state = None
+        self.wind_strength = [0, 0, 0, 1, 1, 1, 2, 2, 1, 0]
+        self.start = [0, 3]
+        self.goal = [7, 3]
+        self.current_state=[0,0]
 
     def env_start(self):
         """
@@ -38,8 +42,8 @@ class WindygridEnvironment(BaseEnvironment):
         Returns: state - numpy array
         Hint: Sample the starting state necessary for exploring starts and return.
         """
-        self.state = np.array(self.start)
-        return self.state
+        self.current_state = np.array(self.start)
+        return self.current_state
 
     def env_step(self, action):
         """
@@ -48,26 +52,28 @@ class WindygridEnvironment(BaseEnvironment):
         Hint: Take a step in the environment based on dynamics; also checking for action validity in
         state may help handle any rogue agents.
         """
-        x = self.state[0] + action[0]
-        y = self.state[1] + action[1]
-        if x<0:
-            x = 0
-        if x>self.width-1:
-            x = self.width-1
-        if y<0:
-            y=0
-        if y>self.height-1:
-            y= self.height -1
-        
-        y -= self.wind_strength[x]
-        if y<0:
-            y=0           
-            
-        self.state = np.array((x,y))
-        reward = -1.0
-        terminal = False
-        if np.array_equal(self.state,self.goal):
+        self.current_state[1] += self.wind_strength[self.current_state[0]]
+        self.current_state[0] += action[0]
+        self.current_state[1] += action[1]
+        if  self.current_state[0]<0:
+            self.current_state[0] = 0
+        if  self.current_state[0]>self.width-1:
+            self.current_state[0] = self.width-1
+        if  self.current_state[1]<0:
+            self.current_state[1]=0
+        if self.current_state[1]>self.height-1:
+            self.current_state[1]= self.height -1
+
+        self.state = np.array((self.current_state[0],self.current_state[1]))
+
+
+        if np.array_equal(self.current_state,self.goal):
             terminal = True
+            reward = -1.0
+        else:
+            terminal = False
+            reward = -1.0
+
         return reward,self.state,terminal
 
     def env_message(self, in_message):
