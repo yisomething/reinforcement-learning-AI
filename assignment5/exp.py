@@ -8,6 +8,7 @@ from env import RandomWalkEnvironment
 from agent1 import TabularAgent
 import numpy as np
 import rndmwalk_policy_evaluation
+import matplotlib.pyplot as plt
 from tqdm import tqdm
 
 
@@ -23,14 +24,14 @@ if __name__ == "__main__":
     del agent, environment  # don't use these anymore
 
     true_value = np.load("TrueValueFunction.npy")
-
+    RMSE = np.zeros(2000)
     for run in tqdm(range(num_runs)):
 
-
+        np.random.seed(num_runs)
         # initialize RL-Glue
         rlglue.rl_init()
 
-        RMSE = np.zeros(num_episodes)
+
 
         # loop over episodes
         for episode in tqdm(range(num_episodes)):
@@ -41,7 +42,14 @@ if __name__ == "__main__":
 
             # if episode is one of the key episodes, extract and save value
             # function
-            #RMSE[episode] = rlglue.rl_agent_message("RMSE")
+            RMSE[episode] += rlglue.rl_agent_message("RMSE")
+
+
+    RMSE=[i/num_runs for i in RMSE]
+
+    plt.plot(range(2000),RMSE)
+    plt.show()
+
 
 
 

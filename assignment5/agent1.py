@@ -5,6 +5,7 @@
 """
 from rl_glue import BaseAgent
 import numpy as np
+import rndmwalk_policy_evaluation
 
 
 class TabularAgent(BaseAgent):
@@ -95,9 +96,10 @@ class TabularAgent(BaseAgent):
 
         if (in_message == 'RMSE'):
             estimated_values = np.zeros(1001)
+            true_value = np.load("TrueValueFunction.npy")
             for state in range(1001):
                 estimated_values[state] = self.value(state, self.w)
 
-            return np.sqrt(np.mean((true_value[1:] - episode_values[1:]) ** 2))
+            return np.sqrt(np.mean((true_value[1:] - estimated_values[1:]) ** 2))
         else:
             return "I dont know how to respond to this message!!"
