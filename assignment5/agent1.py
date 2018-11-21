@@ -19,9 +19,6 @@ class TabularAgent(BaseAgent):
     def __init__(self):
         """Declare agent variables."""
         self.alpha = 0.5
-        self.w = None #weights
-        self.current_state = None
-        self.last_state = None
         self.action = None
 
     def agent_init(self):
@@ -31,9 +28,10 @@ class TabularAgent(BaseAgent):
         Hint: Initialize the variables that need to be reset before each run
         begins
         """
-        self.w = np.zeros(1001)
+        self.w = np.zeros(1001) #weights
         self.current_state = None
         self.last_state = None
+        self.state = 0
 
     def agent_start(self, state):
         """
@@ -87,6 +85,7 @@ class TabularAgent(BaseAgent):
 
         self.w = np.add(self.w, TD_error * self.get_feature_vector(self.last_state))
 
+
     def agent_message(self, in_message):
         """
         Arguments: in_message - string
@@ -95,11 +94,8 @@ class TabularAgent(BaseAgent):
         """
 
         if (in_message == 'RMSE'):
-            estimated_values = np.zeros(1001)
-            true_value = np.load("TrueValueFunction.npy")
-            for state in range(1001):
-                estimated_values[state] = self.value(state, self.w)
 
-            return np.sqrt(np.mean((true_value[1:] - estimated_values[1:]) ** 2))
+            true_value = np.load("TrueValueFunction.npy")
+            return np.sqrt(np.mean((true_value[1:] - self.w[1:]) ** 2))
         else:
             return "I dont know how to respond to this message!!"
