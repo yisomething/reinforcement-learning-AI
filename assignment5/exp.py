@@ -48,16 +48,15 @@ def main():
     result1 = experiment(rlglue,num_episodes,num_runs)
     del agent, environment  # don't use these anymore
 
-    """
     environment = RandomWalkEnvironment()
     agent = TileAgent()
     rlglue = RLGlue(environment, agent)
     result2 = experiment(rlglue,num_episodes,num_runs)
     del agent, environment  # don't use these anymore
 
-    """
 
     plt.plot(range(num_episodes),result1,label="TabularAgent")
+    plt.plot(range(num_episodes),result2,label = "Tile Encoding Agent ")
     plt.xlabel("Episodes")
     plt.ylabel("RMSE")
     plt.legend()
