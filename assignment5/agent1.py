@@ -1,7 +1,7 @@
 """
    Purpose: For use in the Reinforcement Learning course, Fall 2018,
    University of Alberta.
-   Monte Carlo agent using RLGlue - barebones.
+
 """
 from rl_glue import BaseAgent
 import numpy as np
@@ -37,9 +37,7 @@ class TabularAgent(BaseAgent):
         """
         Arguments: state - numpy array
         Returns: action - integer
-        Hint: Initialize the variables that you want to reset before starting
-        a new episode, pick the first action, don't forget about exploring
-        starts
+
         """
         self.current_state = 500
         self.last_state = self.current_state
@@ -67,6 +65,8 @@ class TabularAgent(BaseAgent):
         self.action=np.random.randint(-100,101)
         while self.action == 0 :
             self.action = np.random.randint(-100,101)
+
+        #in order to optimal running time, write self.w[state] as dot multiple result
 
         TD_error = self.alpha * (reward + self.w[self.current_state] - self.w[self.last_state])
         self.w += TD_error * self.get_feature_vector(self.last_state)

@@ -10,18 +10,19 @@ from agent2 import TileAgent
 import numpy as np
 from rndmwalk_policy_evaluation import *
 import matplotlib.pyplot as plt
-from tqdm import tqdm
+#from tqdm import tqdm
 
 def experiment(rlglue,num_episodes,num_runs):
     RMSE = np.zeros(num_episodes)
-    for run in tqdm(range(num_runs)):
+    for run in range(num_runs):
+        print('run ' +str(run+1))
 
         np.random.seed(run)
         # initialize RL-Glue
         rlglue.rl_init()
 
         # loop over episodes
-        for episode in tqdm(range(num_episodes)):
+        for episode in range(num_episodes):
 
             # run episode with the allocated steps budget
             rlglue.rl_episode()
@@ -38,7 +39,7 @@ def experiment(rlglue,num_episodes,num_runs):
 def main():
     num_episodes = 2000
     #max_steps = 10000
-    num_runs = 2
+    num_runs = 30
     true_value = np.load("TrueValueFunction.npy")
 
     # Create and pass agent and environment objects to RLGlue
@@ -55,8 +56,8 @@ def main():
     del agent, environment  # don't use these anymore
 
 
-    plt.plot(range(num_episodes),result1,label="TabularAgent")
-    plt.plot(range(num_episodes),result2,label = "Tile Encoding Agent ")
+    plt.plot(range(num_episodes),result1,label="Tabular feature encoding")
+    plt.plot(range(num_episodes),result2,label = "Tile coding")
     plt.xlabel("Episodes")
     plt.ylabel("RMSE")
     plt.legend()
