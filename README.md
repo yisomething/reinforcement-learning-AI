@@ -5,7 +5,7 @@
 ##topics
 With a focus on AI as the design of agents learning from experience to predict and control their environment, topics will include
 
-*Markov decision processes
+*Markov decision processes </br>
 *Reinforcement learning
 *Planning by approximate dynamic programming
 *Monte Carlo methods
