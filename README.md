@@ -1,7 +1,10 @@
 # cmput366 Atificial Intellgent
 
 ## environment : 
-python3.6 numpy matplotlib tqdm
+python3.6 
+numpy 
+matplotlib 
+tqdm
 
 ## topics
 With a focus on AI as the design of agents learning from experience to predict and control their environment, topics will include
