@@ -6,6 +6,7 @@
 * matplotlib 
 * tqdm
 
+
 ## topics:
 `With a focus on AI as the design of agents learning from experience to predict and control their environment, topics will include`
 * Markov decision processes </br>
@@ -14,6 +15,7 @@
 * Monte Carlo methods</br>
 * Heuristic search</br>
 * Online supervised learning</br>
+
 
 ## other resources:
 ### [RLGLUE](https://sites.google.com/a/rl-community.org/rl-glue/Home?authuser=0)
